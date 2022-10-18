@@ -7,6 +7,7 @@ mod day06;
 mod day07;
 mod day08;
 mod day09;
+mod day10;
 
 pub use day01::day_one;
 pub use day02::day_two;
@@ -17,6 +18,7 @@ pub use day06::day_six;
 pub use day07::day_seven;
 pub use day08::day_eight;
 pub use day09::day_nine;
+pub use day10::day_ten;
 
 use std::fs::read_to_string;
 
