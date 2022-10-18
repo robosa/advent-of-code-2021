@@ -22,6 +22,7 @@ fn main() {
         6 => println!("{}", day_six(args.step)),
         7 => println!("{}", day_seven(args.step)),
         8 => println!("{}", day_eight(args.step)),
+        9 => println!("{}", day_nine(args.step)),
         _ => (),
     }
 }

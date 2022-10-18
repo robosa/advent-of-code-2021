@@ -87,7 +87,7 @@ fn parse_line(line: &str) -> Option<((usize, usize), (usize, usize))> {
 }
 
 pub fn day_five(step: u8) -> usize {
-    let input = get_input("input/day5.txt");
+    let input = get_input("input/day05.txt");
     let mut grid = Grid::create();
     let diagonals = step == 2;
     input

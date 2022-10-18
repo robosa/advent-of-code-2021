@@ -18,7 +18,7 @@ fn step_2(numbers: &Vec<u32>) -> u32 {
 }
 
 pub fn day_seven(step: u8) -> u32 {
-    let input = get_input("input/day7.txt");
+    let input = get_input("input/day07.txt");
     let mut numbers: Vec<u32> = input.split(',').filter_map(|n| n.parse().ok()).collect();
     match step {
         1 => step_1(&mut numbers),

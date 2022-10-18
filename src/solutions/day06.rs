@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 use super::get_input;
 
 pub fn day_six(step: u8) -> u64 {
-    let input = get_input("input/day6.txt");
+    let input = get_input("input/day06.txt");
     let last_day: u16 = if step == 2 { 256 } else { 80 };
     let mut initial_state = [0; 9];
     input

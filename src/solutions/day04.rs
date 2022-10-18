@@ -66,7 +66,7 @@ fn get_score(scores: Vec<(usize, u32)>, turns_compare: fn(&usize, &usize) -> boo
 }
 
 pub fn day_four(step: u8) -> u32 {
-    let input = get_input("input/day4.txt");
+    let input = get_input("input/day04.txt");
     let mut line_iter = input.lines();
 
     let numbers = line_iter

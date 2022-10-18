@@ -32,7 +32,7 @@ fn update_position_2(pos: (u32, u32, u32), mov: (&str, u32)) -> (u32, u32, u32) 
 }
 
 pub fn day_two(step: u8) -> u32 {
-    let input = get_input("input/day2.txt");
+    let input = get_input("input/day02.txt");
     let data = input.lines().filter_map(clean_line);
     let (height, depth, _) = match step {
         1 => data.fold((0, 0, 0), update_position_1),

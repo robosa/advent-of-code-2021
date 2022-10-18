@@ -94,7 +94,7 @@ fn step2(data: Vec<Vec<u32>>) -> u32 {
 }
 
 pub fn day_three(step: u8) -> u32 {
-    let input = get_input("input/day3.txt");
+    let input = get_input("input/day03.txt");
     let data: Vec<Vec<u32>> = input.lines().filter_map(str_to_vec).collect();
     match step {
         1 => step1(data),
