@@ -1,4 +1,4 @@
-use std::{collections::HashSet, cmp::Reverse};
+use std::{cmp::Reverse, collections::HashSet};
 
 use super::get_input;
 
@@ -19,6 +19,26 @@ impl HeightMap {
         }
     }
 
+    fn get_neighbors(&self, p: (usize, usize)) -> Vec<(usize, usize)> {
+        let mut neighbors = Vec::new();
+        if p.0 >= self.content.len() || p.1 >= self.content[p.0].len() {
+            return neighbors;
+        }
+        if p.0 > 0 && p.1 < self.content[p.0 - 1].len() {
+            neighbors.push((p.0 - 1, p.1));
+        }
+        if p.0 < self.content.len() - 1 && p.1 < self.content[p.0 + 1].len() {
+            neighbors.push((p.0 + 1, p.1));
+        }
+        if p.1 > 0 {
+            neighbors.push((p.0, p.1 - 1));
+        }
+        if p.1 < self.content[p.0].len() {
+            neighbors.push((p.0, p.1 + 1));
+        }
+        neighbors
+    }
+
     fn get_point(&self, p: (usize, usize)) -> u32 {
         if p.0 < self.content.len() && p.1 < self.content[p.0].len() {
             self.content[p.0][p.1]
@@ -27,44 +47,12 @@ impl HeightMap {
         }
     }
 
-    fn check_up(&self, p: (usize, usize)) -> u32 {
-        if p.0 == 0 || self.content[p.0 - 1].len() <= p.1 {
-            9
-        } else {
-            self.content[p.0 - 1][p.1]
-        }
-    }
-
-    fn check_down(&self, p: (usize, usize)) -> u32 {
-        if p.0 == self.content.len() - 1 || self.content[p.0 + 1].len() <= p.1 {
-            9
-        } else {
-            self.content[p.0 + 1][p.1]
-        }
-    }
-
-    fn check_left(&self, p: (usize, usize)) -> u32 {
-        if p.1 == 0 {
-            9
-        } else {
-            self.content[p.0][p.1 - 1]
-        }
-    }
-
-    fn check_right(&self, p: (usize, usize)) -> u32 {
-        if p.1 == self.content[p.0].len() - 1 {
-            9
-        } else {
-            self.content[p.0][p.1 + 1]
-        }
-    }
-
     fn is_low(&self, p: (usize, usize)) -> bool {
         let h = self.get_point(p);
-        h < self.check_up(p)
-            && h < self.check_down(p)
-            && h < self.check_left(p)
-            && h < self.check_right(p)
+        self.get_neighbors(p)
+            .into_iter()
+            .find(|n| self.get_point(*n) <= h)
+            == None
     }
 
     fn find_low_points(&mut self) {
@@ -80,23 +68,16 @@ impl HeightMap {
 
     fn get_basin_size(&self, p: (usize, usize)) -> usize {
         if self.get_point(p) == 9 {
-            return 0
+            return 0;
         }
         let mut stack = vec![p];
         let mut visited = HashSet::from([p]);
         while let Some(p) = stack.pop() {
-            if self.check_up(p) < 9 && visited.insert((p.0 - 1, p.1)) {
-                stack.push((p.0 - 1, p.1))
-            };
-            if self.check_down(p) < 9 && visited.insert((p.0 + 1, p.1)) {
-                stack.push((p.0 + 1, p.1))
-            };
-            if self.check_left(p) < 9 && visited.insert((p.0, p.1 - 1)) {
-                stack.push((p.0, p.1 - 1))
-            };
-            if self.check_right(p) < 9 && visited.insert((p.0, p.1 + 1)) {
-                stack.push((p.0, p.1 + 1))
-            };
+            for n in self.get_neighbors(p) {
+                if self.get_point(n) < 9 && visited.insert(n) {
+                    stack.push(n);
+                }
+            }
         }
         visited.len()
     }
@@ -106,11 +87,11 @@ impl HeightMap {
     }
 
     fn step_2(&self) -> u32 {
-        let mut sizes: Vec<usize> = self
+        let mut sizes = self
             .low_points
             .iter()
             .map(|p| self.get_basin_size(*p))
-            .collect();
+            .collect::<Vec<_>>();
         sizes.sort_unstable_by_key(|x| Reverse(*x));
         sizes
             .iter()
