@@ -1,3 +1,5 @@
+use std::iter::FromIterator;
+
 use itertools::Itertools;
 
 use super::get_input;
@@ -8,20 +10,21 @@ struct Grid {
     content: Vec<u8>,
 }
 
-impl Grid {
-    fn create(input: Vec<&str>) -> Grid {
+impl<'a> FromIterator<&'a str> for Grid {
+    fn from_iter<I: IntoIterator<Item = &'a str>>(iter: I) -> Self {
         Grid {
             rows: [0; 5],
             columns: [0; 5],
-            content: input
-                .iter()
-                .map(|row| row.split(' ').filter_map(|value| value.parse().ok()))
-                .flatten()
+            content: iter
+                .into_iter()
+                .flat_map(|row| row.split(' ').filter_map(|value| value.parse().ok()))
                 .take(25)
                 .collect(),
         }
     }
+}
 
+impl Grid {
     fn check_number(&mut self, number: u8) -> bool {
         if let Some(p) = self.content.iter().position(|x| *x == number) {
             let (i, j) = (p / 5, p % 5);
@@ -79,7 +82,7 @@ pub fn day_four(step: u8) -> u32 {
     let scores = line_iter
         .chunks(6)
         .into_iter()
-        .filter_map(|chunk| Grid::create(chunk.skip(1).collect()).play(&numbers))
+        .filter_map(|chunk| chunk.skip(1).collect::<Grid>().play(&numbers))
         .collect();
 
     match step {

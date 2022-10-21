@@ -6,7 +6,7 @@ struct Grid {
 }
 
 impl Grid {
-    fn create() -> Grid {
+    fn create() -> Self {
         Grid {
             content: vec![vec![0; 1000]; 1000],
             overlap_count: 0,

@@ -2,14 +2,13 @@ use std::{cmp::Reverse, collections::HashSet};
 
 use super::get_input;
 
-#[derive(Default)]
 struct HeightMap {
     content: Vec<Vec<u32>>,
     low_points: Vec<(usize, usize)>,
 }
 
-impl HeightMap {
-    fn generate(input: &str) -> HeightMap {
+impl From<String> for HeightMap {
+    fn from(input: String) -> Self {
         HeightMap {
             content: input
                 .lines()
@@ -18,7 +17,9 @@ impl HeightMap {
             low_points: Vec::new(),
         }
     }
+}
 
+impl HeightMap {
     fn get_neighbors(&self, p: (usize, usize)) -> Vec<(usize, usize)> {
         let mut neighbors = Vec::new();
         if p.0 >= self.content.len() || p.1 >= self.content[p.0].len() {
@@ -101,8 +102,7 @@ impl HeightMap {
 }
 
 pub fn day_nine(step: u8) -> u32 {
-    let input = get_input("input/day09.txt");
-    let mut height_map = HeightMap::generate(&input);
+    let mut height_map = HeightMap::from(get_input("input/day09.txt"));
     height_map.find_low_points();
     match step {
         1 => height_map.step_1(),

@@ -7,7 +7,7 @@ use solutions::*;
 #[command(author, version, about, long_about = None)]
 struct Args {
     day: u8,
-    #[arg(value_parser = clap::value_parser!(u8).range(1..3))]
+    #[arg(value_parser = clap::value_parser!(u8).range(1..=2))]
     step: u8,
 }
 
@@ -24,6 +24,9 @@ fn main() {
         8 => println!("{}", day_eight(args.step)),
         9 => println!("{}", day_nine(args.step)),
         10 => println!("{}", day_ten(args.step)),
+        11 => println!("{}", day_eleven(args.step)),
+        12 => println!("{}", day_twelve(args.step)),
+        13 => println!("{}", day_thirteen(args.step)),
         _ => (),
     }
 }
