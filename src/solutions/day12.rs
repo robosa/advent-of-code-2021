@@ -11,16 +11,12 @@ impl From<String> for Caves {
         let mut map: HashMap<String, HashSet<String>> = HashMap::new();
         for s in input.lines() {
             if let Some((n, m)) = s.split_once('-') {
-                if let Some(dest) = map.get_mut(n) {
-                    dest.insert(m.to_string());
-                } else {
-                    map.insert(n.to_string(), HashSet::from([m.to_string()]));
-                }
-                if let Some(dest) = map.get_mut(m) {
-                    dest.insert(n.to_string());
-                } else {
-                    map.insert(m.to_string(), HashSet::from([n.to_string()]));
-                }
+                map.entry(n.to_string())
+                    .or_insert(HashSet::new())
+                    .insert(m.to_string());
+                map.entry(m.to_string())
+                    .or_insert(HashSet::new())
+                    .insert(n.to_string());
             }
         }
         Self { network: map }

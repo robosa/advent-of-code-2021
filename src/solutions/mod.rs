@@ -11,6 +11,7 @@ mod day10;
 mod day11;
 mod day12;
 mod day13;
+mod day14;
 
 pub use day01::day_one;
 pub use day02::day_two;
@@ -25,6 +26,7 @@ pub use day10::day_ten;
 pub use day11::day_eleven;
 pub use day12::day_twelve;
 pub use day13::day_thirteen;
+pub use day14::day_fourteen;
 
 use std::fs::read_to_string;
 
