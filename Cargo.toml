@@ -8,4 +8,5 @@ edition = "2018"
 
 [dependencies]
 clap = { version = "4.0.13", features = ["derive"] }
+hex = "0.4.3"
 itertools = "0.10.5"

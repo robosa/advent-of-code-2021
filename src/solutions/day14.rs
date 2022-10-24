@@ -15,7 +15,7 @@ impl From<String> for Polymer {
     fn from(input: String) -> Self {
         let mut polymer = Polymer::default();
         let mut iter = input.lines();
-        let template: &str = iter.next().unwrap_or_default();
+        let template = iter.next().unwrap_or_default();
         iter.next();
 
         polymer.init_rules(iter);
